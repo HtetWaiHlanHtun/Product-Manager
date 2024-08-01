@@ -29,7 +29,7 @@ class ProductController extends AbstractController
             // Define the page parameter
             $request->query->getInt('page', 1),
             // Items per page
-            5
+            20
         );
 
         // Render the twig view
@@ -42,7 +42,7 @@ class ProductController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
         $product = new Product();
-        $product->setCreatedDatetime(new \DateTime('now',new DateTimeZone('Asia/Singapore')));
+        $product->setCreatedDatetime(new \DateTime('now', new DateTimeZone('Asia/Singapore')));
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -68,7 +68,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager,LoggerInterface $logger): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -86,57 +86,14 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
-    public function delete(Request $request, Product $product, EntityManagerInterface $entityManager,LoggerInterface $logger): Response
+    public function delete(Request $request, Product $product, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();
             $logger->info('Deleted Product');
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/export', name: 'app_product_export', methods: ['GET', 'POST'])]
-    public function export(){
-        dump('oe');exit;
-        $response = new Response();
-        $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="products.csv"');
-
-// Generate CSV content
-        $handle = fopen('php://output', 'w+');
-        fputcsv($handle, ['ID', 'Name', 'Description', 'Price', 'Stock Quantity', 'Created At']);
-        $products = $productRepository->findAll();
-// Fetch products and write to CSV
-        foreach ($products as $product) {
-            fputcsv($handle, [
-                $product->getId(),
-                $product->getName(),
-                $product->getDescription(),
-                $product->getPrice(),
-                $product->getStockQuantity(),
-                $product->getCreatedAt()->format('Y-m-d H:i:s'),
-            ]);
-        }
-        fclose($handle);
-
-        return $response;
-
-//        $sessionuser = $this->session->get('user');
-//        $user = $this->finduser($sessionuser);
-//        //search all the datas of type Object
-//        $datas = $this->getDoctrine()->getRepository(Object::class)-> findBy(['Event'=> $user->getEvent()]);
-//        // normalization and encoding of $datas
-//        $encoders = [new CsvEncoder()];
-//        $normalizers = array(new ObjectNormalizer());
-//        $serializer = new Serializer($normalizers, $encoders);
-//        $csvContent = $serializer->serialize($datas, 'csv');
-//
-//        $response = new Response($csvContent);
-//        $response->headers->set('Content-Encoding', 'UTF-8');
-//        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
-//        $response->headers->set('Content-Disposition', 'attachment; filename=sample.csv');
-//        return $response;
     }
 }

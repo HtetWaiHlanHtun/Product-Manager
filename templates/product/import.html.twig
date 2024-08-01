@@ -1,0 +1,19 @@
+{# templates/product/import.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Import</title>
+</head>
+<body>
+<h1>Import CSV File</h1>
+
+<form action="{{ path('import_csv') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="csv_file" accept=".csv" required>
+    <button type="submit">Upload</button>
+</form>
+
+{% if error %}
+    <div style="color: red;">{{ error }}</div>
+{% endif %}
+</body>
+</html>

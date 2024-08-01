@@ -63,7 +63,7 @@ class Product
         return $this->price;
     }
 
-    public function setPrice(?string $price): static
+    public function setPrice(?float $price): static
     {
         $this->price = $price;
 

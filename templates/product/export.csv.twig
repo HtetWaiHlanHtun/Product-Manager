@@ -1,0 +1,5 @@
+{# templates/product/export.csv.twig #}
+ID,Name,Description,Price,Stock Quantity,Created Datetime
+{% for row in data %}
+{{ row.id }},{{ row.name }},{{ row.description }},{{ row.price }},{{ row.stockQuantity }},{{ row.createdDatetime ? row.createdDatetime|date('Y-m-d H:i:s') : '' }}
+{% endfor %}

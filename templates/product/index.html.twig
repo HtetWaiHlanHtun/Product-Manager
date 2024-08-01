@@ -11,7 +11,8 @@
                 <a class="btn btn-outline-primary" href="{{ path('app_product_new') }}">
                     Create New Product
                 </a>
-{#                <a class="btn btn-outline-success" href="{{ path('app_product_export') }}">Download file</a>#}
+                <a class="btn btn-outline-info" href="{{ path('import_csv') }}">Import CSV</a>
+                <a class="btn btn-outline-success" href="{{ path('export_csv') }}">Export CSV</a>
             </div>
             <div class="card-body">
                 <label>Price:</label>{{ knp_pagination_filter(products, {'p.price':'Price', 'p.stockQuantity':'Stock Quantity','p.created_datetime':'Created Datetime'}) }}
