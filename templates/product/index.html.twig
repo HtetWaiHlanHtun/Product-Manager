@@ -11,6 +11,7 @@
                 <a class="btn btn-outline-primary" href="{{ path('app_product_new') }}">
                     Create New Product
                 </a>
+{#                <a class="btn btn-outline-success" href="{{ path('app_product_export') }}">Download file</a>#}
             </div>
             <div class="card-body">
                 <label>Price:</label>{{ knp_pagination_filter(products, {'p.price':'Price', 'p.stockQuantity':'Stock Quantity','p.created_datetime':'Created Datetime'}) }}
@@ -34,7 +35,8 @@
                             <td>{{ product.stockQuantity }}</td>
                             <td>{{ product.createdDatetime ? product.createdDatetime|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
-                                <form method="post" action="{{ path('app_product_delete', {'id': product.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <form method="post" action="{{ path('app_product_delete', {'id': product.id}) }}"
+                                      onsubmit="return confirm('Are you sure you want to delete this item?');">
                                     <a
                                             class="btn btn-outline-info"
                                             href="{{ path('app_product_show', {'id': product.id}) }}">
@@ -59,41 +61,4 @@
             </div>
         </div>
     </div>
-{#    <h1>Product index</h1>#}
-
-{#    <table class="table">#}
-{#        <thead>#}
-{#            <tr>#}
-{#                <th>Id</th>#}
-{#                <th>Name</th>#}
-{#                <th>Description</th>#}
-{#                <th>Price</th>#}
-{#                <th>StockQuantity</th>#}
-{#                <th>Created_datetime</th>#}
-{#                <th>actions</th>#}
-{#            </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for product in products %}#}
-{#            <tr>#}
-{#                <td>{{ product.id }}</td>#}
-{#                <td>{{ product.name }}</td>#}
-{#                <td>{{ product.description }}</td>#}
-{#                <td>{{ product.price }}</td>#}
-{#                <td>{{ product.stockQuantity }}</td>#}
-{#                <td>{{ product.createdDatetime ? product.createdDatetime|date('Y-m-d H:i:s') : '' }}</td>#}
-{#                <td>#}
-{#                    <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>#}
-{#                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="7">no records found</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-
-{#    <a href="{{ path('app_product_new') }}">Create new</a>#}
 {% endblock %}
